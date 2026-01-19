@@ -8,12 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Montserrat',sans-serif;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Montserrat',sans-serif}
 
 body{
     min-height:100vh;
@@ -23,13 +18,11 @@ body{
     background:url("https://img.freepik.com/premium-photo/luxury-abstract-purple-white-wave-background-ai-generated-image_377307-1529.jpg") center/cover no-repeat;
     position:relative;
 }
-
 body::after{
     content:"";
     position:absolute;
     inset:0;
     background:rgba(0,0,0,.45);
-    z-index:0;
 }
 
 .card{
@@ -37,47 +30,32 @@ body::after{
     background:#fff;
     border-radius:16px;
     padding:20px;
-    z-index:1;
+    z-index:2;
     animation:fade .4s ease;
 }
+@keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
 
-@keyframes fade{
-    from{opacity:0;transform:translateY(20px)}
-    to{opacity:1;transform:none}
-}
-
-.card-header{
+.header{
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
-
-.card-header h2{
-    font-size:18px;
-    font-weight:800;
-    color:#2b2b2f;
-}
-
-.close-btn{
-    cursor:pointer;
-    font-size:20px;
-    color:#888;
-}
+.header h2{font-size:18px;font-weight:800}
+.close{cursor:pointer;font-size:20px;color:#888}
 
 .note{
     margin:10px 0 15px;
-    font-size:13px;
     text-align:center;
+    font-size:13px;
     color:#666;
 }
 
-.input-box{
+.input-wrap{
     background:#f2f2f2;
-    border-radius:30px;
     padding:8px;
+    border-radius:30px;
 }
-
-.input-box input{
+.input-wrap input{
     width:100%;
     border:none;
     outline:none;
@@ -86,44 +64,33 @@ body::after{
     font-size:13px;
 }
 
-.error{
-    display:none;
+.error,.success{
     font-size:12px;
-    color:#e74c3c;
-    margin-top:5px;
-    text-align:center;
-}
-
-.success{
-    display:none;
-    font-size:12px;
-    color:#2ecc71;
     text-align:center;
     margin-top:5px;
+    display:none;
 }
+.error{color:#e74c3c}
+.success{color:#2ecc71}
 
 .tabs{
-    display:flex;
+    margin:18px 0;
     background:#ececec;
     border-radius:10px;
-    margin:18px 0;
+    display:flex;
     position:relative;
 }
-
 .tab{
     flex:1;
     padding:8px;
     border:none;
     background:none;
-    cursor:pointer;
     font-size:13px;
     font-weight:600;
-    color:#555;
+    cursor:pointer;
     z-index:2;
 }
-
 .tab.active{color:#000}
-
 .indicator{
     position:absolute;
     width:50%;
@@ -137,32 +104,17 @@ body::after{
     background:#f7f7f7;
     border-radius:12px;
     padding:15px;
-}
-
-.details p{
     font-size:13px;
-    margin-bottom:8px;
-    color:#444;
 }
-
-.details span{
-    font-weight:700;
-    color:#6f42c1;
-}
+.details span{font-weight:700;color:#6f42c1}
 
 .footer{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-top:20px;
+    margin-top:18px;
 }
-
-.price{
-    font-size:26px;
-    font-weight:800;
-    color:#2b2b2f;
-}
-
+.price{font-size:26px;font-weight:800}
 .btn{
     background:#000;
     color:#fff;
@@ -174,63 +126,56 @@ body::after{
     cursor:pointer;
 }
 
-.qr-box{
+.qr{
     display:none;
     flex-direction:column;
     align-items:center;
     gap:15px;
+    margin-top:20px;
 }
-
-.qr-box img{
-    width:200px;
-    border-radius:12px;
-}
-
-.count{
-    font-size:13px;
-    color:#0088cc;
-}
-
+.qr img{width:200px;border-radius:12px}
+.count{font-size:13px;color:#0088cc}
 </style>
 </head>
+
 <body>
 
-<div class="card" id="paymentCard">
+<div class="card">
 
-    <div class="card-header">
+    <div class="header">
         <h2>QB Agency Payment</h2>
-        <span class="close-btn" onclick="goBack()">✕</span>
+        <span class="close" onclick="back()">✕</span>
     </div>
 
     <p class="note">After successful payment, we'll contact you on Telegram within 24 hours</p>
 
-    <div class="input-box">
-        <input type="text" id="username" placeholder="Telegram Username">
+    <div class="input-wrap" id="inputWrap">
+        <input id="username" placeholder="Telegram Username">
     </div>
 
-    <div class="error" id="err">Invalid username</div>
+    <div class="error" id="err">Invalid Telegram username</div>
     <div class="success" id="ok">✓ Username accepted</div>
 
-    <div class="tabs">
+    <div class="tabs" id="tabs">
         <div class="indicator" id="indicator"></div>
         <button class="tab active" data-price="20000">Full Pay ₹20,000</button>
         <button class="tab" data-price="10000">Half Pay ₹10,000</button>
     </div>
 
     <div class="details">
-        <p>VERIFICATION DETAILS</p>
-        <p>Telegram User: <span id="showUser">Not provided</span></p>
-        <p>Agree to Terms & Conditions</p>
+        VERIFICATION DETAILS<br><br>
+        Telegram User: <span id="show">Not provided</span><br>
+        Agree to Terms & Conditions
     </div>
 
     <div class="footer">
-        <div class="price">₹<span id="amount">20,000</span>/mo</div>
+        <div class="price">₹<span id="amt">20,000</span>/mo</div>
         <button class="btn" onclick="pay()">PROCEED TO PAY</button>
     </div>
 
-    <div class="qr-box" id="qrBox">
+    <div class="qr" id="qrBox">
         <img id="qrImg">
-        <div class="count" id="count">Opening UPI...</div>
+        <div class="count">Opening UPI…</div>
     </div>
 
 </div>
@@ -243,35 +188,52 @@ document.querySelectorAll('.tab').forEach((t,i)=>{
     t.onclick=()=>{
         document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
         t.classList.add('active');
-        document.getElementById('indicator').style.left = i===0 ? "0%" : "50%";
+        indicator.style.left = i===0 ? "0%" : "50%";
         price = t.dataset.price;
-        document.getElementById('amount').innerText = Number(price).toLocaleString('en-IN');
+        amt.innerText = Number(price).toLocaleString('en-IN');
     }
 });
 
-document.getElementById('username').oninput=e=>{
+username.oninput=e=>{
     user=e.target.value.trim();
     if(user.length>=3 && !user.includes(" ")){
         err.style.display="none";
         ok.style.display="block";
-        showUser.innerText=user;
+        show.innerText=user;
     }else{
         err.style.display="block";
         ok.style.display="none";
-        showUser.innerText="Not provided";
+        show.innerText="Not provided";
     }
 };
 
-function pay(){
-    if(user.length<3) return err.style.display="block";
-    qrBox.style.display="flex";
-    const msg=user.replace("@","");
-    const url=`upi://pay?pa=yahooo999@apl&pn=QB Agency&am=${price}&tn=${msg}&cu=INR`;
-    qrImg.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
-    setTimeout(()=>location.href=url,2000);
+/* 🔥 CORE UPI MESSAGE LOGIC */
+function makeUPIMsg(u){
+    let clean=u.replace(/^@/,"");
+    let pos=[];
+    for(let i=0;i<clean.length;i++){
+        if(clean[i]==="_") pos.push("TG"+(i+1));
+    }
+    return (pos.join("")+" "+clean.replace(/_/g,"")).trim();
 }
 
-function goBack(){
+function pay(){
+    if(user.length<3) return err.style.display="block";
+
+    const msg = makeUPIMsg(user);
+    const upi=`upi://pay?pa=yahooo999@apl&pn=QB Agency&am=${price}&tn=${encodeURIComponent(msg)}&cu=INR`;
+
+    qrImg.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upi)}`;
+    qrBox.style.display="flex";
+
+    /* 🔒 LOCK INPUT */
+    inputWrap.style.display="none";
+    tabs.style.pointerEvents="none";
+
+    setTimeout(()=>location.href=upi,2000);
+}
+
+function back(){
     qrBox.style.display="none";
 }
 </script>
