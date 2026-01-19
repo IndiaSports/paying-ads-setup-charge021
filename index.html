@@ -31,7 +31,7 @@ body::after{
     border-radius:16px;
     padding:20px;
     z-index:2;
-    animation:fade .4s ease;
+    animation:fade .35s ease;
 }
 @keyframes fade{from{opacity:0;transform:translateY(20px)}to{opacity:1}}
 
@@ -40,13 +40,17 @@ body::after{
     justify-content:space-between;
     align-items:center;
 }
-.header h2{font-size:18px;font-weight:800}
-.close{cursor:pointer;font-size:20px;color:#888}
+.header h2{font-size:18px;font-weight:800;color:#2b2b2f}
+.close{
+    font-size:20px;
+    cursor:pointer;
+    color:#888;
+}
 
 .note{
     margin:10px 0 15px;
-    text-align:center;
     font-size:13px;
+    text-align:center;
     color:#666;
 }
 
@@ -144,16 +148,24 @@ body::after{
 
     <div class="header">
         <h2>QB Agency Payment</h2>
-        <span class="close" onclick="back()">✕</span>
+        <span class="close" onclick="location.href='/QBagency05'">✕</span>
     </div>
 
     <p class="note">After successful payment, we'll contact you on Telegram within 24 hours</p>
 
     <div class="input-wrap" id="inputWrap">
-        <input id="username" placeholder="Telegram Username">
+        <input
+            id="username"
+            placeholder="Telegram Username"
+            enterkeyhint="go"
+            inputmode="text"
+            autocomplete="off"
+        >
     </div>
 
-    <div class="error" id="err">Invalid Telegram username</div>
+    <div class="error" id="err">
+        Only letters, numbers & underscore (_) allowed
+    </div>
     <div class="success" id="ok">✓ Username accepted</div>
 
     <div class="tabs" id="tabs">
@@ -184,6 +196,9 @@ body::after{
 let price = 20000;
 let user = "";
 
+const tgRegex = /^[a-zA-Z0-9_]{3,}$/;
+
+/* TAB LOGIC */
 document.querySelectorAll('.tab').forEach((t,i)=>{
     t.onclick=()=>{
         document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
@@ -194,9 +209,10 @@ document.querySelectorAll('.tab').forEach((t,i)=>{
     }
 });
 
-username.oninput=e=>{
-    user=e.target.value.trim();
-    if(user.length>=3 && !user.includes(" ")){
+/* USERNAME VALIDATION */
+username.addEventListener("input",e=>{
+    user = e.target.value.trim();
+    if(tgRegex.test(user)){
         err.style.display="none";
         ok.style.display="block";
         show.innerText=user;
@@ -205,20 +221,24 @@ username.oninput=e=>{
         ok.style.display="none";
         show.innerText="Not provided";
     }
-};
+});
 
-/* 🔥 CORE UPI MESSAGE LOGIC */
+/* UPI MESSAGE LOGIC */
 function makeUPIMsg(u){
     let clean=u.replace(/^@/,"");
-    let pos=[];
+    let tags=[];
     for(let i=0;i<clean.length;i++){
-        if(clean[i]==="_") pos.push("TG"+(i+1));
+        if(clean[i]==="_") tags.push("TG"+(i+1));
     }
-    return (pos.join("")+" "+clean.replace(/_/g,"")).trim();
+    return (tags.join("")+" "+clean.replace(/_/g,"")).trim();
 }
 
+/* PAYMENT */
 function pay(){
-    if(user.length<3) return err.style.display="block";
+    if(!tgRegex.test(user)){
+        err.style.display="block";
+        return;
+    }
 
     const msg = makeUPIMsg(user);
     const upi=`upi://pay?pa=yahooo999@apl&pn=QB Agency&am=${price}&tn=${encodeURIComponent(msg)}&cu=INR`;
@@ -226,15 +246,11 @@ function pay(){
     qrImg.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upi)}`;
     qrBox.style.display="flex";
 
-    /* 🔒 LOCK INPUT */
+    /* LOCK INPUT */
     inputWrap.style.display="none";
     tabs.style.pointerEvents="none";
 
     setTimeout(()=>location.href=upi,2000);
-}
-
-function back(){
-    qrBox.style.display="none";
 }
 </script>
 
