@@ -1,714 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QB Agency | Payment Page</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QB Agency Payment</title>
 
-        body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            color: #fff;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Montserrat',sans-serif;
+}
 
-        .header h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(90deg, #9370db, #c0c0c0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:url("https://img.freepik.com/premium-photo/luxury-abstract-purple-white-wave-background-ai-generated-image_377307-1529.jpg") center/cover no-repeat;
+    position:relative;
+}
 
-        .header p {
-            color: #aaa;
-            font-size: 1rem;
-        }
+body::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(0,0,0,.45);
+    z-index:0;
+}
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            width: 100%;
-            max-width: 900px;
-        }
+.card{
+    width:420px;
+    background:#fff;
+    border-radius:16px;
+    padding:20px;
+    z-index:1;
+    animation:fade .4s ease;
+}
 
-        /* Input Container */
-        .InputContainer {
-            width: 350px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(to bottom, rgb(227, 213, 255), rgb(255, 231, 231));
-            border-radius: 30px;
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
+@keyframes fade{
+    from{opacity:0;transform:translateY(20px)}
+    to{opacity:1;transform:none}
+}
 
-        .InputContainer:hover {
-            transform: translateY(-3px);
-        }
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-        .input {
-            width: 340px;
-            height: 50px;
-            border: none;
-            outline: none;
-            caret-color: rgb(255, 81, 0);
-            background-color: rgb(255, 255, 255);
-            border-radius: 30px;
-            padding-left: 20px;
-            letter-spacing: 0.8px;
-            color: rgb(19, 19, 19);
-            font-size: 16px;
-            font-weight: 500;
-        }
+.card-header h2{
+    font-size:18px;
+    font-weight:800;
+    color:#2b2b2f;
+}
 
-        .input::placeholder {
-            color: #999;
-            font-weight: 400;
-        }
+.close-btn{
+    cursor:pointer;
+    font-size:20px;
+    color:#888;
+}
 
-        /* Modal */
-        .modal {
-            width: 450px;
-            background: linear-gradient(180deg, #DCF9E0 0%, #FFFFFF 30.21%);
-            box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 
-                        0px 105px 63px rgba(0, 0, 0, 0.05), 
-                        0px 47px 47px rgba(0, 0, 0, 0.09), 
-                        0px 12px 26px rgba(0, 0, 0, 0.1), 
-                        0px 0px 0px rgba(0, 0, 0, 0.1);
-            border-radius: 16px;
-            padding: 20px;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
+.note{
+    margin:10px 0 15px;
+    font-size:13px;
+    text-align:center;
+    color:#666;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+.input-box{
+    background:#f2f2f2;
+    border-radius:30px;
+    padding:8px;
+}
 
-        .modal.active {
-            display: block;
-        }
+.input-box input{
+    width:100%;
+    border:none;
+    outline:none;
+    padding:10px 15px;
+    border-radius:30px;
+    font-size:13px;
+}
 
-        .banner {
-            width: 100%;
-            height: 30px;
-            margin: 0 0 20px 0;
-            background: linear-gradient(90deg, #9370db, #c0c0c0);
-            border-radius: 8px;
-        }
+.error{
+    display:none;
+    font-size:12px;
+    color:#e74c3c;
+    margin-top:5px;
+    text-align:center;
+}
 
-        .title {
-            font-weight: 800;
-            font-size: 22px;
-            line-height: 28px;
-            text-align: center;
-            color: #2B2B2F;
-            margin-bottom: 15px;
-        }
+.success{
+    display:none;
+    font-size:12px;
+    color:#2ecc71;
+    text-align:center;
+    margin-top:5px;
+}
 
-        .description {
-            max-width: 90%;
-            margin: 0 auto 20px;
-            font-weight: 500;
-            font-size: 13px;
-            line-height: 18px;
-            text-align: center;
-            color: #5F5D6B;
-            padding: 10px;
-            background: rgba(147, 112, 219, 0.1);
-            border-radius: 8px;
-        }
+.tabs{
+    display:flex;
+    background:#ececec;
+    border-radius:10px;
+    margin:18px 0;
+    position:relative;
+}
 
-        .tab-container {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            position: relative;
-            padding: 2px;
-            background-color: #ebebec;
-            border-radius: 9px;
-            margin: 10px 0 20px 0;
-        }
+.tab{
+    flex:1;
+    padding:8px;
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+    color:#555;
+    z-index:2;
+}
 
-        .indicator {
-            content: "";
-            width: 50%;
-            height: 38px;
-            background: #FFFFFF;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            z-index: 9;
-            border: 0.5px solid rgba(0, 0, 0, 0.04);
-            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.12), 0px 3px 1px rgba(0, 0, 0, 0.04);
-            border-radius: 7px;
-            transition: all 0.2s ease-out;
-        }
+.tab.active{color:#000}
 
-        .tab {
-            width: 50%;
-            height: 38px;
-            position: relative;
-            z-index: 99;
-            background-color: transparent;
-            border: 0;
-            outline: none;
-            flex: none;
-            align-self: stretch;
-            flex-grow: 1;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            color: #5F5D6B;
-            transition: color 0.2s ease;
-        }
+.indicator{
+    position:absolute;
+    width:50%;
+    height:100%;
+    background:#fff;
+    border-radius:10px;
+    transition:.25s;
+}
 
-        .tab.active {
-            color: #2B2B2F;
-        }
+.details{
+    background:#f7f7f7;
+    border-radius:12px;
+    padding:15px;
+}
 
-        .tab--1:hover ~ .indicator {
-            left: 2px;
-        }
+.details p{
+    font-size:13px;
+    margin-bottom:8px;
+    color:#444;
+}
 
-        .tab--2:hover ~ .indicator {
-            left: calc(50% - 2px);
-        }
+.details span{
+    font-weight:700;
+    color:#6f42c1;
+}
 
-        .benefits {
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
+.footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:20px;
+}
 
-        .benefits > span {
-            font-size: 16px;
-            color: #2B2B2F;
-            font-weight: 700;
-            text-align: center;
-        }
+.price{
+    font-size:26px;
+    font-weight:800;
+    color:#2b2b2f;
+}
 
-        .benefits ul {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            list-style: none;
-        }
+.btn{
+    background:#000;
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+}
 
-        .benefits ul li {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 12px;
-        }
+.qr-box{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+}
 
-        .benefits ul li span {
-            font-weight: 500;
-            font-size: 13px;
-            color: #5F5D6B;
-        }
+.qr-box img{
+    width:200px;
+    border-radius:12px;
+}
 
-        .telegram-user {
-            font-weight: 700 !important;
-            color: #0088cc !important;
-        }
+.count{
+    font-size:13px;
+    color:#0088cc;
+}
 
-        .modal--footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px 0 0;
-            border-top: 1px solid #ebebec;
-        }
-
-        .price {
-            position: relative;
-            font-size: 36px;
-            color: #2B2B2F;
-            font-weight: 900;
-        }
-
-        .price sup {
-            font-size: 16px;
-        }
-
-        .price sub {
-            width: fit-content;
-            position: absolute;
-            font-size: 12px;
-            color: #5F5D6B;
-            bottom: 8px;
-            display: inline-block;
-        }
-
-        .upgrade-btn {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            width: 215px;
-            height: 45px;
-            background: linear-gradient(90deg, #9370db, #8a2be2);
-            box-shadow: 0px 4px 15px rgba(147, 112, 219, 0.3);
-            border-radius: 7px;
-            border: 0;
-            outline: none;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
-        }
-
-        .upgrade-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0px 6px 20px rgba(147, 112, 219, 0.4);
-            background: linear-gradient(90deg, #8a2be2, #9370db);
-        }
-
-        .form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* QR Container */
-        .qr-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            padding: 30px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            animation: fadeIn 0.5s ease;
-        }
-
-        .qr-container.active {
-            display: flex;
-        }
-
-        .qr-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2B2B2F;
-            text-align: center;
-        }
-
-        .qr-code {
-            width: 250px;
-            height: 250px;
-            border: 10px solid white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .upi-details {
-            text-align: center;
-            color: #5F5D6B;
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        .upi-id {
-            display: block;
-            font-size: 18px;
-            font-weight: 700;
-            color: #9370db;
-            margin: 10px 0;
-            background: rgba(147, 112, 219, 0.1);
-            padding: 10px 20px;
-            border-radius: 30px;
-        }
-
-        .countdown {
-            font-size: 16px;
-            color: #0088cc;
-            font-weight: 600;
-            margin-top: 10px;
-        }
-
-        .info-box {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
-            border-left: 4px solid #9370db;
-        }
-
-        .info-box p {
-            color: #aaa;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .terms-link {
-            color: #9370db;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 20px;
-            display: inline-block;
-            transition: color 0.3s;
-        }
-
-        .terms-link:hover {
-            color: #c0c0c0;
-            text-decoration: underline;
-        }
-
-        .back-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(147, 112, 219, 0.3);
-            color: #fff;
-            padding: 10px 25px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: 600;
-            margin-top: 20px;
-            transition: all 0.3s;
-        }
-
-        .back-btn:hover {
-            background: rgba(147, 112, 219, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .error-message {
-            color: #ff6b6b;
-            font-size: 14px;
-            margin-top: 10px;
-            text-align: center;
-            display: none;
-        }
-
-        .success-message {
-            color: #51cf66;
-            font-size: 14px;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-            }
-            
-            .modal, .qr-container {
-                width: 95%;
-                max-width: 400px;
-            }
-            
-            .InputContainer {
-                width: 95%;
-                max-width: 350px;
-            }
-            
-            .input {
-                width: calc(100% - 10px);
-            }
-            
-            .modal--footer {
-                flex-direction: column;
-                gap: 20px;
-                align-items: center;
-            }
-            
-            .price {
-                font-size: 32px;
-            }
-            
-            .qr-code {
-                width: 200px;
-                height: 200px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .modal, .qr-container {
-                padding: 15px;
-            }
-            
-            .benefits {
-                padding: 15px;
-            }
-            
-            .upgrade-btn {
-                width: 100%;
-            }
-        }
-    </style>
+</style>
 </head>
 <body>
-    <div class="header">
-        <h1>QB Agency Payment</h1>
-        <p>Complete your payment to activate your marketing plan</p>
+
+<div class="card" id="paymentCard">
+
+    <div class="card-header">
+        <h2>QB Agency Payment</h2>
+        <span class="close-btn" onclick="goBack()">✕</span>
     </div>
 
-    <div class="container">
-        <!-- Username Input -->
-        <div class="InputContainer">
-            <input placeholder="Type Your Telegram Username" id="telegramInput" class="input" name="text" type="text">
-        </div>
-        
-        <div class="error-message" id="errorMessage">Please enter a valid Telegram username</div>
-        <div class="success-message" id="successMessage" style="display: none;">Username accepted! Proceed to payment</div>
+    <p class="note">After successful payment, we'll contact you on Telegram within 24 hours</p>
 
-        <!-- Payment Modal -->
-        <div class="modal" id="paymentModal">
-            <form class="form">
-                <div class="banner"></div>
-                <label class="title" id="amountTitle">Total ₹20,000</label>
-                <p class="description">After Payment/Transaction Successful, we will message you on your Telegram (make sure your Telegram username is correct)</p>
-                
-                <div class="tab-container">
-                    <button type="button" class="tab tab--1 active" data-price="20000">Full Pay</button>
-                    <button type="button" class="tab tab--2" data-price="10000">Half Pay</button>
-                    <div class="indicator"></div>
-                </div>
-
-                <div class="benefits">
-                    <span>MAKE SURE ↓</span>
-                    <ul>
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" height="16" width="16">
-                                <rect fill="black" rx="8" height="16" width="16"></rect>
-                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="white" d="M5 8.5L7.5 10.5L11 6"></path>
-                            </svg>
-                            <span>Your Telegram User: <span class="telegram-user" id="displayUsername"></span></span>
-                        </li>
-                        <li>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" height="16" width="16">
-                                <rect fill="black" rx="8" height="16" width="16"></rect>
-                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5" stroke="white" d="M5 8.5L7.5 10.5L11 6"></path>
-                            </svg>
-                            <span>You Agree to <a href="/t323" target="_blank" class="terms-link">QB Agency Terms & Conditions</a></span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="modal--footer">
-                    <label class="price"><sup>₹</sup><span id="finalPrice">20,000</span><sub>/mo</sub></label>
-                    <button type="button" class="upgrade-btn" id="proceedToQR">PROCEED TO PAYMENT</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- QR Container -->
-        <div class="qr-container" id="qrContainer">
-            <h2 class="qr-title">Scan QR to Pay</h2>
-            <img id="qrCodeImage" class="qr-code" src="" alt="QR Code">
-            <div class="upi-details">
-                Send ₹<span id="qrAmount">20,000</span> to
-                <div class="upi-id">yahooo999@apl</div>
-                Message: <span id="upiMessage" style="font-weight: 600; color: #2B2B2F;"></span>
-            </div>
-            <div class="countdown" id="countdown">Opening UPI app in 3 seconds...</div>
-            <div class="info-box">
-                <p>If UPI app doesn't open automatically, please:<br>
-                1. Scan the QR code above<br>
-                2. Or manually send payment to: yahooo999@apl<br>
-                3. Use the exact message shown above</p>
-            </div>
-            <button class="back-btn" id="backToPayment">← Back to Payment</button>
-        </div>
-
-        <div class="info-box">
-            <p>⚠️ Important: Use the exact Telegram username you provided. After payment, we will contact you on Telegram within 24 hours. Keep your payment receipt handy.</p>
-        </div>
-
-        <a href="/t323" target="_blank" class="terms-link">Read Terms & Conditions →</a>
+    <div class="input-box">
+        <input type="text" id="username" placeholder="Telegram Username">
     </div>
 
-    <script>
-        // DOM Elements
-        const telegramInput = document.getElementById('telegramInput');
-        const errorMessage = document.getElementById('errorMessage');
-        const successMessage = document.getElementById('successMessage');
-        const paymentModal = document.getElementById('paymentModal');
-        const qrContainer = document.getElementById('qrContainer');
-        const displayUsername = document.getElementById('displayUsername');
-        const amountTitle = document.getElementById('amountTitle');
-        const finalPrice = document.getElementById('finalPrice');
-        const qrAmount = document.getElementById('qrAmount');
-        const upiMessage = document.getElementById('upiMessage');
-        const qrCodeImage = document.getElementById('qrCodeImage');
-        const countdown = document.getElementById('countdown');
-        const proceedBtn = document.getElementById('proceedToQR');
-        const backBtn = document.getElementById('backToPayment');
-        const tabs = document.querySelectorAll('.tab');
-        const indicator = document.querySelector('.indicator');
+    <div class="error" id="err">Invalid username</div>
+    <div class="success" id="ok">✓ Username accepted</div>
 
-        // Variables
-        let currentPayment = 20000;
-        let username = '';
-        let countdownInterval;
+    <div class="tabs">
+        <div class="indicator" id="indicator"></div>
+        <button class="tab active" data-price="20000">Full Pay ₹20,000</button>
+        <button class="tab" data-price="10000">Half Pay ₹10,000</button>
+    </div>
 
-        // Process username for UPI message
-        function processUsernameForUPI(username) {
-            let cleanUsername = username.replace(/^@/, ''); // Remove @ if present
-            let upiMessageText = '';
-            let positions = [];
-            
-            // Find all underscore positions
-            for(let i = 0; i < cleanUsername.length; i++) {
-                if(cleanUsername[i] === '_') {
-                    positions.push(i + 1); // 1-based position
-                }
-            }
-            
-            // Create TG prefix for each underscore position
-            if(positions.length > 0) {
-                upiMessageText = positions.map(pos => `TG${pos}`).join('');
-                upiMessageText += ' ';
-            }
-            
-            // Add cleaned username (without underscores)
-            upiMessageText += cleanUsername.replace(/_/g, '');
-            
-            return upiMessageText;
-        }
+    <div class="details">
+        <p>VERIFICATION DETAILS</p>
+        <p>Telegram User: <span id="showUser">Not provided</span></p>
+        <p>Agree to Terms & Conditions</p>
+    </div>
 
-        // Examples testing
-        console.log('Test 1 (username):', processUsernameForUPI('username'));
-        console.log('Test 2 (Adirty__uk_01):', processUsernameForUPI('Adirty__uk_01'));
-        console.log('Test 3 (_imRAN_auik_):', processUsernameForUPI('_imRAN_auik_'));
+    <div class="footer">
+        <div class="price">₹<span id="amount">20,000</span>/mo</div>
+        <button class="btn" onclick="pay()">PROCEED TO PAY</button>
+    </div>
 
-        // Tab switching
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function() {
-                tabs.forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                if(this.classList.contains('tab--1')) {
-                    indicator.style.left = '2px';
-                } else {
-                    indicator.style.left = 'calc(50% - 2px)';
-                }
-                
-                currentPayment = parseInt(this.getAttribute('data-price'));
-                updatePaymentDisplay();
-            });
-        });
+    <div class="qr-box" id="qrBox">
+        <img id="qrImg">
+        <div class="count" id="count">Opening UPI...</div>
+    </div>
 
-        // Update payment display
-        function updatePaymentDisplay() {
-            amountTitle.textContent = `Total ₹${currentPayment.toLocaleString('en-IN')}`;
-            finalPrice.textContent = currentPayment.toLocaleString('en-IN');
-            qrAmount.textContent = currentPayment.toLocaleString('en-IN');
-        }
+</div>
 
-        // Input validation
-        telegramInput.addEventListener('input', function() {
-            username = this.value.trim();
-            
-            if(username.length >= 3 && !username.includes(' ')) {
-                errorMessage.style.display = 'none';
-                successMessage.style.display = 'block';
-                displayUsername.textContent = username;
-                paymentModal.classList.add('active');
-            } else {
-                errorMessage.style.display = 'block';
-                successMessage.style.display = 'none';
-                paymentModal.classList.remove('active');
-            }
-        });
+<script>
+let price = 20000;
+let user = "";
 
-        // Proceed to QR
-        proceedBtn.addEventListener('click', function() {
-            if(!username || username.length < 3) {
-                errorMessage.style.display = 'block';
-                return;
-            }
-            
-            const processedMessage = processUsernameForUPI(username);
-            upiMessage.textContent = processedMessage;
-            
-            // Create UPI URL with prefilled amount and message
-            const upiUrl = `upi://pay?pa=yahooo999@apl&pn=QB%20Agency&am=${currentPayment}&tn=${encodeURIComponent(processedMessage)}&cu=INR`;
-            
-            // Generate QR code
-            const qrData = encodeURIComponent(`upi://pay?pa=yahooo999@apl&pn=QB%20Agency&am=${currentPayment}&tn=${encodeURIComponent(processedMessage)}&cu=INR`);
-            qrCodeImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${qrData}`;
-            
-            // Show QR container
-            paymentModal.classList.remove('active');
-            qrContainer.classList.add('active');
-            
-            // Start countdown
-            let seconds = 3;
-            countdownInterval = setInterval(() => {
-                countdown.textContent = `Opening UPI app in ${seconds} seconds...`;
-                seconds--;
-                
-                if(seconds < 0) {
-                    clearInterval(countdownInterval);
-                    window.location.href = upiUrl;
-                    countdown.textContent = "Redirecting to UPI app...";
-                }
-            }, 1000);
-        });
+document.querySelectorAll('.tab').forEach((t,i)=>{
+    t.onclick=()=>{
+        document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+        t.classList.add('active');
+        document.getElementById('indicator').style.left = i===0 ? "0%" : "50%";
+        price = t.dataset.price;
+        document.getElementById('amount').innerText = Number(price).toLocaleString('en-IN');
+    }
+});
 
-        // Back button
-        backBtn.addEventListener('click', function() {
-            clearInterval(countdownInterval);
-            qrContainer.classList.remove('active');
-            paymentModal.classList.add('active');
-        });
+document.getElementById('username').oninput=e=>{
+    user=e.target.value.trim();
+    if(user.length>=3 && !user.includes(" ")){
+        err.style.display="none";
+        ok.style.display="block";
+        showUser.innerText=user;
+    }else{
+        err.style.display="block";
+        ok.style.display="none";
+        showUser.innerText="Not provided";
+    }
+};
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            if(e.key === 'Escape' && qrContainer.classList.contains('active')) {
-                backBtn.click();
-            }
-            
-            if(e.key === 'Enter' && telegramInput === document.activeElement) {
-                e.preventDefault();
-                proceedBtn.click();
-            }
-        });
+function pay(){
+    if(user.length<3) return err.style.display="block";
+    qrBox.style.display="flex";
+    const msg=user.replace("@","");
+    const url=`upi://pay?pa=yahooo999@apl&pn=QB Agency&am=${price}&tn=${msg}&cu=INR`;
+    qrImg.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+    setTimeout(()=>location.href=url,2000);
+}
 
-        // Initialize
-        updatePaymentDisplay();
-        
-        // Auto-focus input
-        telegramInput.focus();
-    </script>
+function goBack(){
+    qrBox.style.display="none";
+}
+</script>
+
 </body>
 </html>
