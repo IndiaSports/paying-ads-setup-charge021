@@ -186,8 +186,8 @@ body::after{
 
     <div class="tabs" id="tabs">
         <div class="indicator" id="indicator"></div>
-        <button class="tab active" data-price="20000">Full Pay ₹20,000</button>
-        <button class="tab" data-price="10000">Half Pay ₹10,000</button>
+        <button class="tab active" data-price="19999">Full Pay ₹19,999</button>
+        <button class="tab" data-price="9999">Half Pay ₹9,999</button>
     </div>
 
     <div class="details">
@@ -197,7 +197,7 @@ body::after{
     </div>
 
     <div class="footer">
-        <div class="price">₹<span id="amt">20,000</span>/mo</div>
+        <div class="price">₹<span id="amt">19,999</span>/mo</div>
         <button class="btn" onclick="pay()">PROCEED TO PAY</button>
     </div>
 
@@ -209,7 +209,7 @@ body::after{
 </div>
 
 <script>
-let price = 20000;
+let price = 19999;
 let user = "";
 
 const tgRegex = /^[a-zA-Z0-9_]{3,}$/;
